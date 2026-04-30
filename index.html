@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pousada Marie Claire — Sugestões e Reclamações</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #f5f0ea;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 24px 16px 48px;
+      color: #2c2c2c;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      max-width: 480px;
+      width: 100%;
+      padding: 36px 32px;
+    }
+
+    /* ── Header ── */
+    .logo-area {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .logo-area .icon {
+      font-size: 48px;
+      line-height: 1;
+    }
+    .logo-area h1 {
+      font-size: 1.4rem;
+      font-weight: normal;
+      letter-spacing: 0.04em;
+      color: #7a5c3e;
+      margin-top: 8px;
+    }
+    .logo-area .subtitulo {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Badge do apartamento ── */
+    .badge-apto {
+      background: #f0e8df;
+      border: 1px solid #d4b896;
+      border-radius: 8px;
+      padding: 10px 16px;
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 0.9rem;
+      color: #7a5c3e;
+    }
+    .badge-apto strong {
+      font-size: 1.1rem;
+    }
+
+    /* ── Formulário ── */
+    .grupo {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #7a5c3e;
+      margin-bottom: 6px;
+    }
+    input[type="text"], textarea, select {
+      width: 100%;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.97rem;
+      font-family: inherit;
+      color: #2c2c2c;
+      background: #fafafa;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #c8955a;
+      background: #fff;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    /* ── Tipo (botões de seleção) ── */
+    .tipo-grupo {
+      display: flex;
+      gap: 10px;
+    }
+    .tipo-btn {
+      flex: 1;
+      padding: 10px 8px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      background: #fafafa;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: #555;
+      text-align: center;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .tipo-btn:hover { border-color: #c8955a; }
+    .tipo-btn.ativo {
+      border-color: #7a5c3e;
+      background: #f0e8df;
+      color: #7a5c3e;
+      font-weight: bold;
+    }
+
+    /* ── Botão Enviar ── */
+    .btn-enviar {
+      width: 100%;
+      padding: 14px;
+      background: #7a5c3e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+    .btn-enviar:hover  { background: #5e4530; }
+    .btn-enviar:active { transform: scale(0.98); }
+    .btn-enviar:disabled { background: #bbb; cursor: not-allowed; }
+
+    /* ── Estados de feedback ── */
+    .mensagem-feedback {
+      display: none;
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .mensagem-feedback .icone { font-size: 52px; }
+    .mensagem-feedback h2 { margin: 12px 0 6px; color: #7a5c3e; }
+    .mensagem-feedback p  { font-size: 0.9rem; color: #666; line-height: 1.5; }
+
+    .spinner {
+      display: none;
+      width: 22px; height: 22px;
+      border: 3px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Rodapé ── */
+    .rodape {
+      margin-top: 28px;
+      font-size: 0.75rem;
+      color: #aaa;
+      text-align: center;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Cabeçalho -->
+  <div class="logo-area">
+    <div class="icon">🌿</div>
+    <h1>Pousada Marie Claire</h1>
+    <div class="subtitulo">Sua opinião é muito importante para nós</div>
+  </div>
+
+  <!-- Badge do apartamento (preenchido automaticamente via URL) -->
+  <div class="badge-apto" id="badgeApto">
+    Carregando apartamento…
+  </div>
+
+  <!-- Formulário -->
+  <form id="formFeedback">
+
+    <!-- Tipo -->
+    <div class="grupo">
+      <label>Tipo</label>
+      <div class="tipo-grupo">
+        <button type="button" class="tipo-btn ativo" data-valor="Sugestão" onclick="selecionarTipo(this)">
+          💡 Sugestão
+        </button>
+        <button type="button" class="tipo-btn" data-valor="Reclamação" onclick="selecionarTipo(this)">
+          ⚠️ Reclamação
+        </button>
+        <button type="button" class="tipo-btn" data-valor="Elogio" onclick="selecionarTipo(this)">
+          ⭐ Elogio
+        </button>
+      </div>
+      <input type="hidden" id="tipoSelecionado" value="Sugestão" />
+    </div>
+
+    <!-- Nome (opcional) -->
+    <div class="grupo">
+      <label>Seu nome <span style="font-weight:normal;color:#aaa;">(opcional)</span></label>
+      <input type="text" id="nomeHospede" placeholder="Como podemos chamá-lo(a)?" maxlength="100" autocomplete="name" />
+    </div>
+
+    <!-- Mensagem -->
+    <div class="grupo">
+      <label>Mensagem *</label>
+      <textarea id="mensagem" placeholder="Descreva sua sugestão, reclamação ou elogio…" maxlength="2000" required></textarea>
+    </div>
+
+    <!-- Botão -->
+    <button type="submit" class="btn-enviar" id="btnEnviar">
+      <span id="btnTexto">Enviar</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+
+  </form>
+
+  <!-- Mensagem de sucesso -->
+  <div class="mensagem-feedback" id="msgSucesso">
+    <div class="icone">🙏</div>
+    <h2>Obrigado!</h2>
+    <p>Sua mensagem foi recebida com sucesso.<br>Agradecemos por ajudar a melhorar a sua estadia.</p>
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div class="mensagem-feedback" id="msgErro">
+    <div class="icone">😕</div>
+    <h2>Algo deu errado</h2>
+    <p>Não foi possível enviar sua mensagem.<br>Por favor, tente novamente ou fale com a recepção.</p>
+    <button class="btn-enviar" style="margin-top:16px;max-width:200px;" onclick="voltarFormulario()">Tentar novamente</button>
+  </div>
+
+</div><!-- /card -->
+
+<div class="rodape">
+  Pousada Marie Claire &nbsp;·&nbsp; Atendimento 24h na recepção<br>
+  Suas informações são tratadas com total privacidade.
+</div>
+
+<!-- ============================================================
+     CONFIGURAÇÃO — altere apenas esta variável
+     Cole aqui a URL gerada ao publicar o Google Apps Script
+     ============================================================ -->
+<script>
+  const APPS_SCRIPT_URL = "COLE_AQUI_A_URL_DO_APPS_SCRIPT";
+</script>
+
+<script>
+  // ── Identifica o apartamento pela URL ──────────────────────
+  // Exemplo de URL: https://seu-site.github.io/?apto=AP12
+  let apartamentoAtual = "APxx";
+
+  (function identificarApartamento() {
+    const params = new URLSearchParams(window.location.search);
+    const apto   = (params.get("apto") || "").toUpperCase().trim();
+
+    // Valida formato AP01 … AP99
+    if (/^AP\d{2}$/.test(apto)) {
+      apartamentoAtual = apto;
+      document.getElementById("badgeApto").innerHTML =
+        `Apartamento <strong>${apto}</strong>`;
+    } else {
+      document.getElementById("badgeApto").innerHTML =
+        `⚠️ Apartamento não identificado — fale com a recepção`;
+      document.getElementById("badgeApto").style.borderColor = "#e8a87c";
+    }
+  })();
+
+  // ── Seleciona o tipo de feedback ──────────────────────────
+  function selecionarTipo(btn) {
+    document.querySelectorAll(".tipo-btn").forEach(b => b.classList.remove("ativo"));
+    btn.classList.add("ativo");
+    document.getElementById("tipoSelecionado").value = btn.dataset.valor;
+  }
+
+  // ── Envia o formulário ────────────────────────────────────
+  document.getElementById("formFeedback").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const mensagem = document.getElementById("mensagem").value.trim();
+    if (!mensagem) {
+      document.getElementById("mensagem").focus();
+      return;
+    }
+
+    // Estado de carregamento
+    const btnEnviar = document.getElementById("btnEnviar");
+    const btnTexto  = document.getElementById("btnTexto");
+    const spinner   = document.getElementById("spinner");
+    btnEnviar.disabled = true;
+    btnTexto.style.display = "none";
+    spinner.style.display  = "block";
+
+    const payload = {
+      apartamento : apartamentoAtual,
+      tipo        : document.getElementById("tipoSelecionado").value,
+      nome        : document.getElementById("nomeHospede").value.trim() || "Anônimo",
+      mensagem    : mensagem,
+    };
+
+    try {
+      // O Apps Script não aceita CORS nativo; usamos no-cors e assumimos sucesso
+      await fetch(APPS_SCRIPT_URL, {
+        method  : "POST",
+        mode    : "no-cors",
+        headers : { "Content-Type": "application/json" },
+        body    : JSON.stringify(payload),
+      });
+
+      mostrar("msgSucesso");
+
+    } catch (err) {
+      console.error(err);
+      mostrar("msgErro");
+    }
+  });
+
+  // ── Helpers de UI ─────────────────────────────────────────
+  function mostrar(id) {
+    document.getElementById("formFeedback").style.display = "none";
+    document.getElementById("badgeApto").style.display    = "none";
+    document.getElementById(id).style.display = "block";
+  }
+
+  function voltarFormulario() {
+    document.getElementById("msgErro").style.display      = "none";
+    document.getElementById("formFeedback").style.display = "block";
+    document.getElementById("badgeApto").style.display    = "block";
+    const btn = document.getElementById("btnEnviar");
+    btn.disabled = false;
+    document.getElementById("btnTexto").style.display = "inline";
+    document.getElementById("spinner").style.display  = "none";
+  }
+</script>
+</body>
+</html>
