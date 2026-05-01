@@ -373,26 +373,18 @@
     };
 
     try {
-      // Usamos mode: "cors" para poder ler a resposta do Apps Script
+      // Apps Script com CORS — lemos a resposta diretamente
       const res = await fetch(APPS_SCRIPT_URL, {
-        method : "POST", mode : "no-cors",
-        headers: { "Content-Type": "application/json" },
+        method : "POST",
+        headers: { "Content-Type": "text/plain" }, // text/plain evita preflight CORS
         body   : JSON.stringify(payload),
       });
-
-      // Como no-cors não permite ler a resposta, fazemos uma segunda
-      // chamada com redirect para obter o JSON de retorno
-      const res2 = await fetch(APPS_SCRIPT_URL, {
-        method : "POST",
-        headers: { "Content-Type": "application/json" },
-        body   : JSON.stringify(payload),
-      }).catch(() => null);
 
       let convidarGoogle = false;
       let linkGoogle     = null;
 
-      if (res2 && res2.ok) {
-        const json = await res2.json().catch(() => ({}));
+      if (res.ok) {
+        const json = await res.json().catch(() => ({}));
         convidarGoogle = json.convidarGoogle || false;
         linkGoogle     = json.linkGoogle     || null;
       }
