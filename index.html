@@ -6,17 +6,14 @@
   <title>Pousada Marie Claire — Sugestões e Elogios</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    /* Variáveis de cor — trocadas via JS conforme seleção */
     :root {
       --cor-primaria: #1a2b6b;
-      --cor-primaria-hover: #0f1e4a;
+      --cor-hover: #0f1e4a;
       --cor-fundo: #eef4fb;
       --cor-badge-bg: #e8f7fb;
       --cor-badge-borda: #2eb8d4;
       --cor-btn-ativo-bg: #e8f7fb;
     }
-
     body {
       font-family: 'Georgia', serif;
       background: var(--cor-fundo);
@@ -30,29 +27,16 @@
       transition: background 0.4s;
     }
     .card {
-      background: #ffffff;
+      background: #fff;
       border-radius: 16px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.10);
       max-width: 480px;
       width: 100%;
       padding: 36px 32px;
-      transition: box-shadow 0.4s;
     }
-    .logo-area {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-    .logo-area img {
-      max-width: 200px;
-      width: 100%;
-      margin-bottom: 8px;
-    }
-    .logo-area .subtitulo {
-      font-size: 0.85rem;
-      color: #999;
-      margin-top: 4px;
-      letter-spacing: 0.02em;
-    }
+    .logo-area { text-align: center; margin-bottom: 28px; }
+    .logo-area img { max-width: 200px; width: 100%; margin-bottom: 8px; }
+    .logo-area .subtitulo { font-size: 0.85rem; color: #999; margin-top: 4px; letter-spacing: 0.02em; }
     .badge-apto {
       background: var(--cor-badge-bg);
       border: 1.5px solid var(--cor-badge-borda);
@@ -93,12 +77,7 @@
       background: #fff;
     }
     textarea { resize: vertical; min-height: 130px; }
-
-    /* ── Botões de tipo — maiores e destacados ── */
-    .tipo-grupo {
-      display: flex;
-      gap: 12px;
-    }
+    .tipo-grupo { display: flex; gap: 12px; }
     .tipo-btn {
       flex: 1;
       padding: 18px 10px;
@@ -117,21 +96,10 @@
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      line-height: 1.2;
     }
-    .tipo-btn .tipo-icone {
-      font-size: 2rem;
-    }
-    .tipo-btn .tipo-desc {
-      font-size: 0.75rem;
-      font-weight: normal;
-      color: #aaa;
-    }
-    .tipo-btn:hover {
-      border-color: var(--cor-primaria);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-    }
+    .tipo-btn .tipo-icone { font-size: 2rem; }
+    .tipo-btn .tipo-desc { font-size: 0.75rem; font-weight: normal; color: #aaa; }
+    .tipo-btn:hover { border-color: var(--cor-primaria); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.10); }
     .tipo-btn.ativo {
       border-color: var(--cor-primaria);
       background: var(--cor-btn-ativo-bg);
@@ -140,8 +108,6 @@
       transform: translateY(-2px);
     }
     .tipo-btn.ativo .tipo-desc { color: var(--cor-primaria); opacity: 0.7; }
-
-    /* ── Botão enviar ── */
     .btn-enviar {
       width: 100%;
       padding: 15px;
@@ -156,19 +122,34 @@
       transition: background 0.3s, transform 0.1s;
       margin-top: 8px;
     }
-    .btn-enviar:hover  { background: var(--cor-primaria-hover); }
+    .btn-enviar:hover  { background: var(--cor-hover); }
     .btn-enviar:active { transform: scale(0.98); }
     .btn-enviar:disabled { background: #bbb; cursor: not-allowed; }
-
-    .mensagem-feedback {
-      display: none;
-      text-align: center;
-      padding: 20px 10px;
-    }
+    .mensagem-feedback { display: none; text-align: center; padding: 20px 10px; }
     .mensagem-feedback .icone { font-size: 52px; }
     .mensagem-feedback h2 { margin: 12px 0 6px; color: var(--cor-primaria); }
     .mensagem-feedback p  { font-size: 0.9rem; color: #666; line-height: 1.5; }
-
+    .btn-google {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 24px;
+      background: #1a2b6b;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-family: 'Georgia', serif;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+    }
+    .btn-nao {
+      margin-top: 14px;
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
     .spinner {
       display: none;
       width: 22px; height: 22px;
@@ -179,18 +160,10 @@
       margin: 0 auto;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    .rodape {
-      margin-top: 28px;
-      font-size: 0.75rem;
-      color: #aaa;
-      text-align: center;
-      line-height: 1.6;
-    }
+    .rodape { margin-top: 28px; font-size: 0.75rem; color: #aaa; text-align: center; line-height: 1.6; }
   </style>
 </head>
 <body>
-
 <div class="card">
 
   <div class="logo-area">
@@ -202,7 +175,6 @@
 
   <form id="formFeedback">
 
-    <!-- Quarto (modo recepção) -->
     <div class="grupo" id="grupoQuarto" style="display:none;">
       <label>Quarto em que se hospedou *</label>
       <select id="quartoSelect">
@@ -211,7 +183,6 @@
       </select>
     </div>
 
-    <!-- Tipo -->
     <div class="grupo">
       <label>O que você quer compartilhar?</label>
       <div class="tipo-grupo">
@@ -229,13 +200,11 @@
       <input type="hidden" id="tipoSelecionado" value="Sugestão" />
     </div>
 
-    <!-- Nome -->
     <div class="grupo">
       <label>Seu nome <span style="font-weight:normal;color:#aaa;">(opcional)</span></label>
       <input type="text" id="nomeHospede" placeholder="Como podemos chamá-lo(a)?" maxlength="100" autocomplete="name" />
     </div>
 
-    <!-- Mensagem -->
     <div class="grupo">
       <label>Mensagem *</label>
       <textarea id="mensagem" placeholder="Descreva sua sugestão ou elogio…" maxlength="2000" required></textarea>
@@ -254,20 +223,14 @@
     <p>Sua mensagem foi recebida com sucesso.<br>Agradecemos por ajudar a melhorar a sua estadia.</p>
   </div>
 
-  <!-- Convite Google após elogio confirmado por IA -->
   <div class="mensagem-feedback" id="msgConviteGoogle">
     <div class="icone">🌟</div>
     <h2>Que ótimo!</h2>
     <p>Ficamos muito felizes com o seu elogio!<br>Que tal compartilhar essa experiência no Google?<br>Sua avaliação ajuda outros viajantes a nos conhecerem.</p>
-    <a id="btnAvaliarGoogle" href="#" target="_blank"
-       style="display:inline-block;margin-top:20px;padding:14px 24px;background:#1a2b6b;color:white;border-radius:8px;text-decoration:none;font-family:Georgia,serif;font-size:1rem;letter-spacing:0.04em;">
+    <a id="btnAvaliarGoogle" href="https://maps.app.goo.gl/rSi9BPD6iYNxCooJ7" target="_blank" class="btn-google">
       ⭐ Avaliar no Google
-    </a>
-    <br>
-    <button onclick="mostrar('msgSucesso')"
-      style="margin-top:14px;background:none;border:none;color:#aaa;font-size:0.85rem;cursor:pointer;font-family:inherit;">
-      Não, obrigado
-    </button>
+    </a><br>
+    <button class="btn-nao" onclick="mostrar('msgSucesso')">Não, obrigado</button>
   </div>
 
   <div class="mensagem-feedback" id="msgErro">
@@ -286,33 +249,29 @@
 
 <script>
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyW_XA_v5ZVc_Gdh69jK-eWIfQSM40NVgx5UhiWIOY68wcUM0bxF4MdBk8DfQfljZvM/exec";
-</script>
 
-<script>
-  // ── Esquemas de cor por tipo ──────────────────────────────
   const TEMAS = {
     "Sugestão": {
-      "--cor-primaria":      "#1a2b6b",
-      "--cor-primaria-hover":"#0f1e4a",
-      "--cor-fundo":         "#eef4fb",
-      "--cor-badge-bg":      "#e8f7fb",
-      "--cor-badge-borda":   "#2eb8d4",
-      "--cor-btn-ativo-bg":  "#e8f7fb",
+      "--cor-primaria":     "#1a2b6b",
+      "--cor-hover":        "#0f1e4a",
+      "--cor-fundo":        "#eef4fb",
+      "--cor-badge-bg":     "#e8f7fb",
+      "--cor-badge-borda":  "#2eb8d4",
+      "--cor-btn-ativo-bg": "#e8f7fb",
     },
     "Elogio": {
-      "--cor-primaria":      "#b8860b",
-      "--cor-primaria-hover":"#8a6408",
-      "--cor-fundo":         "#fffbea",
-      "--cor-badge-bg":      "#fff8d6",
-      "--cor-badge-borda":   "#ffc400",
-      "--cor-btn-ativo-bg":  "#fff8d6",
+      "--cor-primaria":     "#b8860b",
+      "--cor-hover":        "#8a6408",
+      "--cor-fundo":        "#fffbea",
+      "--cor-badge-bg":     "#fff8d6",
+      "--cor-badge-borda":  "#ffc400",
+      "--cor-btn-ativo-bg": "#fff8d6",
     },
   };
 
   function aplicarTema(tipo) {
     const tema = TEMAS[tipo] || TEMAS["Sugestão"];
-    const root = document.documentElement.style;
-    Object.entries(tema).forEach(([prop, val]) => root.setProperty(prop, val));
+    Object.entries(tema).forEach(([p, v]) => document.documentElement.style.setProperty(p, v));
   }
 
   let apartamentoAtual = null;
@@ -322,22 +281,19 @@
     const params = new URLSearchParams(window.location.search);
     const apto   = (params.get("apto") || "").toUpperCase().trim();
     const recep  = params.get("recepcao");
-
     if (recep === "1") {
       modoRecepcao = true;
       document.getElementById("badgeApto").innerHTML = "🏨 Formulário da Recepção";
       document.getElementById("grupoQuarto").style.display = "block";
     } else if (/^Q\d+$/.test(apto)) {
       apartamentoAtual = apto;
-      const num = apto.replace("Q","");
-      document.getElementById("badgeApto").innerHTML = "Quarto <strong>" + num + "</strong>";
+      document.getElementById("badgeApto").innerHTML = "Quarto <strong>" + apto.replace("Q","") + "</strong>";
     } else {
       document.getElementById("badgeApto").innerHTML = "⚠️ Quarto não identificado — fale com a recepção";
       document.getElementById("badgeApto").style.borderColor = "#e8a87c";
     }
   })();
 
-  // Aplica tema inicial
   aplicarTema("Sugestão");
 
   function selecionarTipo(btn) {
@@ -365,36 +321,23 @@
     document.getElementById("btnTexto").style.display = "none";
     document.getElementById("spinner").style.display  = "block";
 
-    const payload = {
+    const params = new URLSearchParams({
       apartamento : apartamentoAtual || "Desconhecido",
       tipo        : document.getElementById("tipoSelecionado").value,
       nome        : document.getElementById("nomeHospede").value.trim() || "Anônimo",
       mensagem    : mensagem,
-    };
+    });
 
     try {
-      // Apps Script com CORS — lemos a resposta diretamente
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method : "POST",
-        headers: { "Content-Type": "text/plain" }, // text/plain evita preflight CORS
-        body   : JSON.stringify(payload),
-      });
+      // GET com parâmetros — única forma confiável de ler resposta do Apps Script sem CORS
+      const res  = await fetch(APPS_SCRIPT_URL + "?" + params.toString());
+      const json = await res.json();
 
-      let convidarGoogle = false;
-      let linkGoogle     = null;
-
-      if (res.ok) {
-        const json = await res.json().catch(() => ({}));
-        convidarGoogle = json.convidarGoogle || false;
-        linkGoogle     = json.linkGoogle     || null;
-      }
-
-      if (convidarGoogle && linkGoogle) {
-        mostrarConviteGoogle(linkGoogle);
+      if (json.convidarGoogle) {
+        mostrar("msgConviteGoogle");
       } else {
         mostrar("msgSucesso");
       }
-
     } catch (err) {
       mostrar("msgErro");
     }
@@ -403,20 +346,14 @@
   function mostrar(id) {
     document.getElementById("formFeedback").style.display = "none";
     document.getElementById("badgeApto").style.display    = "none";
+    ["msgSucesso","msgConviteGoogle","msgErro"].forEach(i =>
+      document.getElementById(i).style.display = "none");
     document.getElementById(id).style.display = "block";
   }
 
-  function mostrarConviteGoogle(link) {
-    document.getElementById("formFeedback").style.display = "none";
-    document.getElementById("badgeApto").style.display    = "none";
-    document.getElementById("msgSucesso").style.display   = "none";
-    const el = document.getElementById("msgConviteGoogle");
-    el.style.display = "block";
-    document.getElementById("btnAvaliarGoogle").href = link;
-  }
-
   function voltarFormulario() {
-    document.getElementById("msgErro").style.display      = "none";
+    ["msgSucesso","msgConviteGoogle","msgErro"].forEach(i =>
+      document.getElementById(i).style.display = "none");
     document.getElementById("formFeedback").style.display = "block";
     document.getElementById("badgeApto").style.display    = "block";
     const btn = document.getElementById("btnEnviar");
