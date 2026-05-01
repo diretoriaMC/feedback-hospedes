@@ -254,6 +254,22 @@
     <p>Sua mensagem foi recebida com sucesso.<br>Agradecemos por ajudar a melhorar a sua estadia.</p>
   </div>
 
+  <!-- Convite Google após elogio confirmado por IA -->
+  <div class="mensagem-feedback" id="msgConviteGoogle">
+    <div class="icone">🌟</div>
+    <h2>Que ótimo!</h2>
+    <p>Ficamos muito felizes com o seu elogio!<br>Que tal compartilhar essa experiência no Google?<br>Sua avaliação ajuda outros viajantes a nos conhecerem.</p>
+    <a id="btnAvaliarGoogle" href="#" target="_blank"
+       style="display:inline-block;margin-top:20px;padding:14px 24px;background:#1a2b6b;color:white;border-radius:8px;text-decoration:none;font-family:Georgia,serif;font-size:1rem;letter-spacing:0.04em;">
+      ⭐ Avaliar no Google
+    </a>
+    <br>
+    <button onclick="mostrar('msgSucesso')"
+      style="margin-top:14px;background:none;border:none;color:#aaa;font-size:0.85rem;cursor:pointer;font-family:inherit;">
+      Não, obrigado
+    </button>
+  </div>
+
   <div class="mensagem-feedback" id="msgErro">
     <div class="icone">😕</div>
     <h2>Algo deu errado</h2>
@@ -357,12 +373,36 @@
     };
 
     try {
-      await fetch(APPS_SCRIPT_URL, {
+      // Usamos mode: "cors" para poder ler a resposta do Apps Script
+      const res = await fetch(APPS_SCRIPT_URL, {
         method : "POST", mode : "no-cors",
         headers: { "Content-Type": "application/json" },
         body   : JSON.stringify(payload),
       });
-      mostrar("msgSucesso");
+
+      // Como no-cors não permite ler a resposta, fazemos uma segunda
+      // chamada com redirect para obter o JSON de retorno
+      const res2 = await fetch(APPS_SCRIPT_URL, {
+        method : "POST",
+        headers: { "Content-Type": "application/json" },
+        body   : JSON.stringify(payload),
+      }).catch(() => null);
+
+      let convidarGoogle = false;
+      let linkGoogle     = null;
+
+      if (res2 && res2.ok) {
+        const json = await res2.json().catch(() => ({}));
+        convidarGoogle = json.convidarGoogle || false;
+        linkGoogle     = json.linkGoogle     || null;
+      }
+
+      if (convidarGoogle && linkGoogle) {
+        mostrarConviteGoogle(linkGoogle);
+      } else {
+        mostrar("msgSucesso");
+      }
+
     } catch (err) {
       mostrar("msgErro");
     }
@@ -372,6 +412,15 @@
     document.getElementById("formFeedback").style.display = "none";
     document.getElementById("badgeApto").style.display    = "none";
     document.getElementById(id).style.display = "block";
+  }
+
+  function mostrarConviteGoogle(link) {
+    document.getElementById("formFeedback").style.display = "none";
+    document.getElementById("badgeApto").style.display    = "none";
+    document.getElementById("msgSucesso").style.display   = "none";
+    const el = document.getElementById("msgConviteGoogle");
+    el.style.display = "block";
+    document.getElementById("btnAvaliarGoogle").href = link;
   }
 
   function voltarFormulario() {
