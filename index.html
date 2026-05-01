@@ -6,9 +6,20 @@
   <title>Pousada Marie Claire — Sugestões e Elogios</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Variáveis de cor — trocadas via JS conforme seleção */
+    :root {
+      --cor-primaria: #1a2b6b;
+      --cor-primaria-hover: #0f1e4a;
+      --cor-fundo: #eef4fb;
+      --cor-badge-bg: #e8f7fb;
+      --cor-badge-borda: #2eb8d4;
+      --cor-btn-ativo-bg: #e8f7fb;
+    }
+
     body {
       font-family: 'Georgia', serif;
-      background: #f0f8ff;
+      background: var(--cor-fundo);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -16,6 +27,7 @@
       justify-content: flex-start;
       padding: 24px 16px 48px;
       color: #2c2c2c;
+      transition: background 0.4s;
     }
     .card {
       background: #ffffff;
@@ -24,13 +36,14 @@
       max-width: 480px;
       width: 100%;
       padding: 36px 32px;
+      transition: box-shadow 0.4s;
     }
     .logo-area {
       text-align: center;
       margin-bottom: 28px;
     }
     .logo-area img {
-      max-width: 220px;
+      max-width: 200px;
       width: 100%;
       margin-bottom: 8px;
     }
@@ -41,16 +54,17 @@
       letter-spacing: 0.02em;
     }
     .badge-apto {
-      background: #e8f7fb;
-      border: 1px solid #2eb8d4;
+      background: var(--cor-badge-bg);
+      border: 1.5px solid var(--cor-badge-borda);
       border-radius: 8px;
       padding: 10px 16px;
       text-align: center;
       margin-bottom: 24px;
-      font-size: 0.9rem;
-      color: #1a2b6b;
+      font-size: 0.95rem;
+      color: var(--cor-primaria);
+      transition: background 0.4s, border-color 0.4s, color 0.4s;
     }
-    .badge-apto strong { font-size: 1.1rem; }
+    .badge-apto strong { font-size: 1.15rem; }
     .grupo { margin-bottom: 20px; }
     label {
       display: block;
@@ -58,8 +72,9 @@
       font-weight: bold;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #1a2b6b;
+      color: var(--cor-primaria);
       margin-bottom: 6px;
+      transition: color 0.4s;
     }
     input[type="text"], textarea, select {
       width: 100%;
@@ -74,57 +89,86 @@
       outline: none;
     }
     input[type="text"]:focus, textarea:focus, select:focus {
-      border-color: #2eb8d4;
+      border-color: var(--cor-badge-borda);
       background: #fff;
     }
     textarea { resize: vertical; min-height: 130px; }
-    .tipo-grupo { display: flex; gap: 10px; }
+
+    /* ── Botões de tipo — maiores e destacados ── */
+    .tipo-grupo {
+      display: flex;
+      gap: 12px;
+    }
     .tipo-btn {
       flex: 1;
-      padding: 10px 8px;
-      border: 1.5px solid #ddd;
-      border-radius: 8px;
+      padding: 18px 10px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
       background: #fafafa;
       cursor: pointer;
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 1.05rem;
+      font-weight: bold;
       color: #555;
       text-align: center;
-      transition: all 0.2s;
+      transition: all 0.3s;
       user-select: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.2;
     }
-    .tipo-btn:hover { border-color: #2eb8d4; }
+    .tipo-btn .tipo-icone {
+      font-size: 2rem;
+    }
+    .tipo-btn .tipo-desc {
+      font-size: 0.75rem;
+      font-weight: normal;
+      color: #aaa;
+    }
+    .tipo-btn:hover {
+      border-color: var(--cor-primaria);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    }
     .tipo-btn.ativo {
-      border-color: #1a2b6b;
-      background: #e8f7fb;
-      color: #1a2b6b;
-      font-weight: bold;
+      border-color: var(--cor-primaria);
+      background: var(--cor-btn-ativo-bg);
+      color: var(--cor-primaria);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+      transform: translateY(-2px);
     }
+    .tipo-btn.ativo .tipo-desc { color: var(--cor-primaria); opacity: 0.7; }
+
+    /* ── Botão enviar ── */
     .btn-enviar {
       width: 100%;
-      padding: 14px;
-      background: #1a2b6b;
+      padding: 15px;
+      background: var(--cor-primaria);
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-family: inherit;
       letter-spacing: 0.04em;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.3s, transform 0.1s;
       margin-top: 8px;
     }
-    .btn-enviar:hover  { background: #0f1e4a; }
+    .btn-enviar:hover  { background: var(--cor-primaria-hover); }
     .btn-enviar:active { transform: scale(0.98); }
     .btn-enviar:disabled { background: #bbb; cursor: not-allowed; }
+
     .mensagem-feedback {
       display: none;
       text-align: center;
       padding: 20px 10px;
     }
     .mensagem-feedback .icone { font-size: 52px; }
-    .mensagem-feedback h2 { margin: 12px 0 6px; color: #1a2b6b; }
+    .mensagem-feedback h2 { margin: 12px 0 6px; color: var(--cor-primaria); }
     .mensagem-feedback p  { font-size: 0.9rem; color: #666; line-height: 1.5; }
+
     .spinner {
       display: none;
       width: 22px; height: 22px;
@@ -135,6 +179,7 @@
       margin: 0 auto;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+
     .rodape {
       margin-top: 28px;
       font-size: 0.75rem;
@@ -157,7 +202,7 @@
 
   <form id="formFeedback">
 
-    <!-- Quarto (visível apenas no modo recepção) -->
+    <!-- Quarto (modo recepção) -->
     <div class="grupo" id="grupoQuarto" style="display:none;">
       <label>Quarto em que se hospedou *</label>
       <select id="quartoSelect">
@@ -168,13 +213,17 @@
 
     <!-- Tipo -->
     <div class="grupo">
-      <label>Tipo</label>
+      <label>O que você quer compartilhar?</label>
       <div class="tipo-grupo">
         <button type="button" class="tipo-btn ativo" data-valor="Sugestão" onclick="selecionarTipo(this)">
-          💡 Sugestão
+          <span class="tipo-icone">💡</span>
+          <span>Sugestão</span>
+          <span class="tipo-desc">Tem uma ideia?</span>
         </button>
         <button type="button" class="tipo-btn" data-valor="Elogio" onclick="selecionarTipo(this)">
-          ⭐ Elogio
+          <span class="tipo-icone">⭐</span>
+          <span>Elogio</span>
+          <span class="tipo-desc">Gostou de algo?</span>
         </button>
       </div>
       <input type="hidden" id="tipoSelecionado" value="Sugestão" />
@@ -215,7 +264,7 @@
 </div>
 
 <div class="rodape">
-  Pousada Marie Claire &nbsp;·&nbsp; Atendimento 24h na recepção<br>
+  Pousada Marie Claire Flats &nbsp;·&nbsp; Atendimento 24h na recepção<br>
   Suas informações são tratadas com total privacidade.
 </div>
 
@@ -224,6 +273,32 @@
 </script>
 
 <script>
+  // ── Esquemas de cor por tipo ──────────────────────────────
+  const TEMAS = {
+    "Sugestão": {
+      "--cor-primaria":      "#1a2b6b",
+      "--cor-primaria-hover":"#0f1e4a",
+      "--cor-fundo":         "#eef4fb",
+      "--cor-badge-bg":      "#e8f7fb",
+      "--cor-badge-borda":   "#2eb8d4",
+      "--cor-btn-ativo-bg":  "#e8f7fb",
+    },
+    "Elogio": {
+      "--cor-primaria":      "#b8860b",
+      "--cor-primaria-hover":"#8a6408",
+      "--cor-fundo":         "#fffbea",
+      "--cor-badge-bg":      "#fff8d6",
+      "--cor-badge-borda":   "#ffc400",
+      "--cor-btn-ativo-bg":  "#fff8d6",
+    },
+  };
+
+  function aplicarTema(tipo) {
+    const tema = TEMAS[tipo] || TEMAS["Sugestão"];
+    const root = document.documentElement.style;
+    Object.entries(tema).forEach(([prop, val]) => root.setProperty(prop, val));
+  }
+
   let apartamentoAtual = null;
   let modoRecepcao = false;
 
@@ -233,7 +308,6 @@
     const recep  = params.get("recepcao");
 
     if (recep === "1") {
-      // Modo recepção — hóspede escolhe o quarto
       modoRecepcao = true;
       document.getElementById("badgeApto").innerHTML = "🏨 Formulário da Recepção";
       document.getElementById("grupoQuarto").style.display = "block";
@@ -247,10 +321,15 @@
     }
   })();
 
+  // Aplica tema inicial
+  aplicarTema("Sugestão");
+
   function selecionarTipo(btn) {
     document.querySelectorAll(".tipo-btn").forEach(b => b.classList.remove("ativo"));
     btn.classList.add("ativo");
-    document.getElementById("tipoSelecionado").value = btn.dataset.valor;
+    const tipo = btn.dataset.valor;
+    document.getElementById("tipoSelecionado").value = tipo;
+    aplicarTema(tipo);
   }
 
   document.getElementById("formFeedback").addEventListener("submit", async function(e) {
@@ -259,7 +338,6 @@
     const mensagem = document.getElementById("mensagem").value.trim();
     if (!mensagem) { document.getElementById("mensagem").focus(); return; }
 
-    // No modo recepção, valida seleção do quarto
     if (modoRecepcao) {
       const sel = document.getElementById("quartoSelect").value;
       if (!sel) { document.getElementById("quartoSelect").focus(); return; }
